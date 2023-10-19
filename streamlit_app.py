@@ -47,22 +47,6 @@ try:
 except URLError as e:
   streamlit.error()
 
-
-
-#import snowflake.connector
-
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
-my_data_row = my_cur.fetchone()
-streamlit.text("Hello from Snowflake:")
-streamlit.text(my_data_row)
-# take the json version of the response and normalize it 
-fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
-# output in the screen as a table
-streamlit.dataframe(fruityvice_normalized)
-
-
 streamlit.header("The fruit load list contains:")
 #Snowflake-related functions
 def get_fruit_load_list():
@@ -77,8 +61,23 @@ if streamlit.button('Get Fruit Load List'):
     streamlit.dataframe(my_data_row)  
 
 
+
 # don't run anythingpast here while we troubleshoot
 streamlit.stop()
+
+#import snowflake.connector
+
+my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+my_cur = my_cnx.cursor()
+my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
+my_data_row = my_cur.fetchone()
+streamlit.text("Hello from Snowflake:")
+streamlit.text(my_data_row)
+# take the json version of the response and normalize it 
+fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
+# output in the screen as a table
+streamlit.dataframe(fruityvice_normalized)
+
       
 streamlit.text(my_data_row)
 
